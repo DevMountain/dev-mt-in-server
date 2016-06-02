@@ -1,0 +1,4 @@
+module.exports = {
+  mongoUri:'mongodb://devMtIn:23139A6D005BEA765312744AD25A5E3D0456B321AA3AB8F8FB4A22BBD91DB20A@localhost:27017/devMtIn'
+}
+

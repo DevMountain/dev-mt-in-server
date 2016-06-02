@@ -18,11 +18,13 @@ mongoose.connection.once('open', function() {
 
 app.get('/api/profiles/:id', userCtrl.getProfile);
 app.post('/api/profiles', userCtrl.saveProfile);
-app.delete('/api/profiles/:id', userCtrl.deleteProfile);
+app.put('/api/profiles/:id', userCtrl.updateProfile);
+app.delete('/api/profiles/:userId', userCtrl.deleteProfile);
 
-app.get('/api/friends/:id', userCtrl.searchFriends);
-app.put('/api/friends/:id', userCtrl.addFriend);
-app.put('/api/friends/remove/:id', userCtrl.removeFriend);
+app.delete('/api/profiles/:userId/friends/:friendId', userCtrl.removeFriend);
+app.put('/api/profiles/:userId/friends/:friendId', userCtrl.addFriend);
+
+app.get('/api/friends/:userId', userCtrl.searchFriends);
 app.get('/api/friends-friends/:friendId', userCtrl.findFriendsFriends);
 
 app.listen(port, function() {

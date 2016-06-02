@@ -7,9 +7,16 @@ module.exports = {
 			if (err) {
 				return res.status(500).send(err);
 			}
-			
+
 			res.send(newUser);
-			
+
+		});
+	},
+	updateProfile: function(req, res){
+		User.findByIdAndUpdate(req.params.id, req.body, function(err, result){
+			if(err)	res.status(500).send(err);
+			else res.status(200).send(result);
+
 		});
 	}
 	, deleteProfile: function( req, res ) {
@@ -26,9 +33,9 @@ module.exports = {
 				if (err) {
 					return res.status(500).send(err);
 				}
-				
+
 				res.send(deletedUser);
-				
+
 			});
 	}
 	, getProfile: function( req, res ) {
@@ -38,9 +45,9 @@ module.exports = {
 					if (err) {
 						return res.status(500).send(err);
 					}
-					
+
 					res.send(user);
-					
+
 				});
 
 	}
@@ -48,16 +55,16 @@ module.exports = {
 	, searchFriends: function( req, res ) {
 		var re = new RegExp(req.query.name, 'i');
 
-		User.findById(req.params.id, function( err, user ) {
+		User.findById(req.params.userId, function( err, user ) {
 			if (err) {
 				return res.status(500).send(err);
 			}
-			
+
 			var excludeFriends = user.friends;
 
 			User.find()
 				.where('_id')
-				.nin(excludeFriends.concat([req.params.id]))
+				.nin(excludeFriends.concat([req.params.userId]))
 				.where('name')
 				.regex(re)
 				.select('name')
@@ -65,47 +72,47 @@ module.exports = {
 					if (err) {
 						return res.status(500).send(err);
 					}
-					
+
 					res.send(potentialFriends);
-					
+
 				});
-			
+
 		});
 	}
 
 	, addFriend: function( req, res ) {
-		User.findById(req.params.id, function( err, user ) {
+		User.findById(req.params.userId, function( err, user ) {
 			if (err) {
 				return res.status(500).send(err);
 			}
-			
-			user.friends.push(req.body.friendId);
-				
+
+			user.friends.push(req.params.friendId);
+
 			user.save(function( err, updatedUser ) {
 				if (err) {
 					return res.status(500).send(err);
 				}
-				
+
 				res.send(updatedUser);
-				
+
 			});
-			
+
 		});
 	}
 	, removeFriend: function( req, res ) {
-		User.findById(req.params.id, function( err, user ) {
+		User.findById(req.params.userId, function( err, user ) {
 			if (err) {
 				return res.status(500).send(err);
 			}
-			
-			user.friends.pull(req.body.friendId);
+
+			user.friends.pull(req.params.friendId);
 			user.save(function( err, updatedUser ) {
 				if (err) {
 					return res.status(500).send(err);
 				}
-				
+
 				res.send(updatedUser);
-				
+
 			})
 		});
 	}
@@ -117,7 +124,7 @@ module.exports = {
 				if (err) {
 					return res.status(500).send(err);
 				}
-				
+
 				console.log(user);
 				res.send(user.friends);
 
