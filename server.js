@@ -7,6 +7,12 @@ var   express = require('express')
 	, port = 8081
 	, mongoUri = 'mongodb://localhost:27017/devMtIn';
 
+	try{
+		mongoUri = require('./config.js').mongoUri;
+	}catch(e){
+		mongoUri = 'mongodb://localhost:27017/devMtIn'
+	}
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
