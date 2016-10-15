@@ -23,6 +23,7 @@ mongoose.connection.once('open', function() {
 });
 
 app.get('/api/profiles/:id', userCtrl.getProfile);
+app.get('/api/profiles', userCtrl.getProfiles);
 app.post('/api/profiles', userCtrl.saveProfile);
 app.put('/api/profiles/:id', userCtrl.updateProfile);
 app.delete('/api/profiles/:userId', userCtrl.deleteProfile);

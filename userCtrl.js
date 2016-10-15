@@ -51,6 +51,24 @@ module.exports = {
 				});
 
 	}
+  , getProfiles: function( req, res ) {
+    var qry={};
+    for( prop in req.query){
+      qry[prop] = new RegExp(req.query[prop]);
+    }
+		User.find(qry)
+        .limit(50)
+				.populate('friends')
+				.exec(function( err, user ) {
+					if (err) {
+						return res.status(500).send(err);
+					}
+
+					res.send(user);
+
+				});
+
+	}
 
 	, searchFriends: function( req, res ) {
 		var re = new RegExp(req.query.name, 'i');
