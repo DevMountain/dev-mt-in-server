@@ -54,11 +54,11 @@ module.exports = {
   , getProfiles: function( req, res ) {
     var qry={};
     for( prop in req.query){
-      qry[prop] = new RegExp(req.query[prop]);
+      qry[prop] = new RegExp(req.query[prop],'i');
     }
 		User.find(qry)
         .limit(50)
-        .select('name bio')
+        .select('name bio tagline profileUrl')
 				.exec(function( err, user ) {
 					if (err) {
 						return res.status(500).send(err);
