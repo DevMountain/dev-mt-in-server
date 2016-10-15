@@ -58,7 +58,7 @@ module.exports = {
     }
 		User.find(qry)
         .limit(50)
-				.populate('friends')
+        .select('name bio')
 				.exec(function( err, user ) {
 					if (err) {
 						return res.status(500).send(err);
